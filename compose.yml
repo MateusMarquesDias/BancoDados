@@ -63,3 +63,18 @@ configs:
 
 volumes:
   jenkins_home:
+
+ db:
+    image: mysql
+    deploy:
+      replicas: 1
+    environment:
+      MYSQL_ROOT_PASSWORD: examplepassword
+      MYSQL_DATABASE: mydatabase
+      MYSQL_USER: myuser
+      MYSQL_PASSWORD: mypassword
+    networks:
+      - minha_rede
+    deploy:
+      placement:
+        constraints: [node.role == manager]
