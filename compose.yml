@@ -2,7 +2,7 @@ version: '3.7'
 
 services:
   web:
-    image: nginx
+    image: sua_imagem  # Substitua por uma imagem que contém sua aplicação Python
     deploy:
       replicas: 5
       endpoint_mode: vip
@@ -14,7 +14,7 @@ services:
           cpus: '0.1'
           memory: 50M
     ports:
-      - "8000:80"
+      - "8000:8000"
     networks:
       - minha_rede
     environment:
@@ -47,6 +47,21 @@ services:
       placement:
         constraints: [node.role == manager]
 
+  db:
+    image: mysql
+    deploy:
+      replicas: 1
+    environment:
+      MYSQL_ROOT_PASSWORD: examplepassword
+      MYSQL_DATABASE: mydatabase
+      MYSQL_USER: myuser
+      MYSQL_PASSWORD: mypassword
+    networks:
+      - minha_rede
+    deploy:
+      placement:
+        constraints: [node.role == manager]
+
 networks:
   minha_rede:
     driver: overlay
@@ -63,18 +78,3 @@ configs:
 
 volumes:
   jenkins_home:
-
- db:
-    image: mysql
-    deploy:
-      replicas: 1
-    environment:
-      MYSQL_ROOT_PASSWORD: examplepassword
-      MYSQL_DATABASE: mydatabase
-      MYSQL_USER: myuser
-      MYSQL_PASSWORD: mypassword
-    networks:
-      - minha_rede
-    deploy:
-      placement:
-        constraints: [node.role == manager]
