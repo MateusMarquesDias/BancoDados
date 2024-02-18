@@ -7,15 +7,24 @@ import mysql.connector
 app = Flask(__name__)
 cache = redis.Redis(host='redis', port=6379)
 
+# Configurações do banco de dados MySQL
+db_config = {
+    'host': 'localhost',
+    'user': 'root',
+    'password': '',
+    'database': 'mydatabase',  # Substitua pelo nome do seu banco de dados
+    'charset': 'utf8mb4',
+    'collation': 'utf8mb4_unicode_ci',
+}
+
 def get_ip():
     try:
         nome_host = socket.gethostname()
         endereco_ip = socket.gethostbyname(nome_host)
-        mysql.connector.connect(
-          host="localhost",
-          user="root",
-          password=""
-        )
+        # Conectar ao banco de dados MySQL
+        with mysql.connector.connect(**db_config) as conn:
+            cursor = conn.cursor()
+            # Faça operações no banco de dados aqui, se necessário
     except socket.gaierror:
         logging.error("Falha ao recuperar o endereço IP: Nome do host não pôde ser resolvido")
         endereco_ip = 'Não foi possível recuperar o endereço IP'
