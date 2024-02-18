@@ -2,7 +2,7 @@ version: '3.7'
 
 services:
   web:
-    image: sua_imagem  # Substitua por uma imagem que contém sua aplicação Python
+    image: nginx
     deploy:
       replicas: 5
       endpoint_mode: vip
