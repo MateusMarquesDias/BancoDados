@@ -1,7 +1,6 @@
-# syntax=docker/dockerfile:1
-FROM nginx:latest
-WORKDIR  /usr/share/nginx/html 
+FROM python:3.10-alpine
+WORKDIR /app
 COPY requirements.txt requirements.txt
 RUN pip install -r requirements.txt
 COPY . .
-CMD ["nginx", "app.py"]
+CMD ["gunicorn", "-w", "4", "app:app", "-b", "0.0.0.0:8000"]
